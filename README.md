@@ -1,3 +1,6 @@
+* auto-gen TOC:
+{:toc}
+
 # Introduction
 
 We already know that all internet and phone traffic is being monitored. You cannot trust your email providers for private and anonymous access. Javascript is dangerous. Tor is broken in some circumstances. The PGP web-of-trust leaks user information in a dangerous way. Lets fix some of that with software designed to let users of safe computers communicate over unsafe networks.
@@ -18,7 +21,7 @@ Based off [deaddrop](https://github.com/tspilk/deaddrop) by tspilk, which I foun
 
 These instructions assume that you have basic knowlage of unix and have a server capable of sending email and hosting webpages.
 
-## Prerequisits:
+### Prerequisits:
  * sed
  * gnupg
  * apache or other webserver
