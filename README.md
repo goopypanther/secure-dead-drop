@@ -1,4 +1,4 @@
-You can see my example working installation here: https://deaddrop.goopypanther.org/index.cgi
+You can see my example working installation here: https://deaddrop.goopypanther.org/
 
 # Introduction
 
@@ -20,9 +20,9 @@ Based off [deaddrop](https://github.com/tspilk/deaddrop) by tspilk, which I foun
 
 # Installation
 
-These instructions assume that you have basic knowlage of unix and have a server capable of sending email and hosting webpages.
+These instructions assume that you have basic knowledge of unix and have a server capable of sending email and hosting webpages.
 
-### Prerequisits:
+### Dependencies:
  * sed
  * gnupg
  * apache or other webserver
