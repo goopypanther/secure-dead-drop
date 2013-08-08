@@ -2,7 +2,9 @@ You can see my example working installation here: https://deaddrop.goopypanther.
 
 # Introduction
 
-We already know that all internet and phone traffic is being monitored. You cannot trust your email providers for private and anonymous access. Javascript is dangerous. Tor is broken in some circumstances. The PGP web-of-trust leaks user information in a dangerous way. Lets fix some of that with software designed to let users of safe computers communicate over unsafe networks.
+We already know that all internet and phone traffic is being monitored. You cannot trust your email providers for private and anonymous access. Javascript is dangerous. Tor is broken in some circumstances. The PGP web-of-trust leaks user information in a dangerous way.
+
+Let's fix some of that with software designed to let users of safe computers communicate over unsafe networks.
 
 This webapp allows anonymous users to send messages to your inbox, which arrive signed and encrypted using PGP to ensure message integrity and privacy. Only SSL connections are permitted, which ensures encrypted communication between client and server. What SSL doesn't do is give you any idea of who the server is, be it legitimate or an attacker posing as the server. The internet tires to do this identity verification using CA certs but its a mess and full of vulnerabilities. Ultimately it is no better than self-signing, as CA certs only provide the illusion of identify verification.
 
