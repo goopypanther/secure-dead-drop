@@ -21,65 +21,64 @@ message_sender="webmaster@server.org"
 
 ###############################################################################
 
-echo "Content-type: text/html"
-echo ""
+echo $'Content-type: text/html\n'
 
-echo '<!DOCTYPE html>'
-echo '<html>'
-echo '<head>'
-echo '<title>Secure Dead Drop</title>'
-echo '</head>'
-echo '<body>'
-echo '<form action="index.cgi" method="post">'
-echo '<table cellpadding="3" cellspacing="3" style="font-family: sans-serif;">'
-echo '    <tbody>'
-echo '    <tr>'
-echo '        <td colspan="2"><div style="width: 350px; word-wrap: break-word"><b>Secure Dead Drop Messaging System</b><br><br>Write a message below and it will be encrypted and transmitted to me.<br><br>It is recommended that your message be signed with your key to prevent alteration.<br><br>It is also recommended that you encrypt this message to <a href="'
+echo '<!DOCTYPE html>
+      <html>
+      <head>
+      <title>Secure Dead Drop</title>
+      </head>
+      <body>
+      <form action="index.cgi" method="post">
+      <table cellpadding="3" cellspacing="3" style="font-family: sans-serif;">
+          <tbody>
+          <tr>
+              <td colspan="2"><div style="width: 350px; word-wrap: break-word"><b>Secure Dead Drop Messaging System</b><br><br>Write a message below and it will be encrypted and transmitted to me.<br><br>It is recommended that your message be signed with your key to prevent alteration.<br><br>It is also recommended that you encrypt this message to <a href="'
 
 echo "${link_to_remote_backup_pubkey}"
 
-echo '" target="_blank">my pubkey</a> (also available on the right) unless you are confident that this SSL connection has not been MiTMed.<br><br>Do not accept my pubkey on blind faith, verify with offline backups and public keyservs to minimize the chance of successful MiTM. Trust the <a href="https://en.wikipedia.org/wiki/User:Dotdotike/Trust_Upon_First_Use" target="_blank">TOFU.</div></td>'
-echo '        <td rowspan="9" valign="bottom"><textarea name="message" style="resize: none; overflow-y: scroll; width: 480px; height: 750px; font-size:12px">'
+echo '" target="_blank">my pubkey</a> (also available on the right) unless you are confident that this SSL connection has not been MiTMed.<br><br>Do not accept my pubkey on blind faith, verify with offline backups and public keyservs to minimize the chance of successful MiTM. Trust the <a href="https://en.wikipedia.org/wiki/User:Dotdotike/Trust_Upon_First_Use" target="_blank">TOFU.</div></td>
+              <td rowspan="9" valign="bottom"><textarea name="message" style="resize: none; overflow-y: scroll; width: 480px; height: 750px; font-size:12px">'
 
 gpg --homedir $homedir_path --export -a "$message_recipient"
 
-echo '</textarea></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2"><br></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2">(Optional & Non-secure)</td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td><b>Enter Name:</b></td>'
-echo '        <td><textarea name="name" cols="25" rows="1" style="resize: none;"></textarea></input></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td><b>Enter Subject:</b></td>'
-echo '        <td><textarea name="subject" cols="25" rows="1" style="resize: none;"></textarea></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2"><br></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2">(Secure)</td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2"><b>Enter Message:</b></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2"><textarea name="message" cols="45" rows="10" style="resize: none; overflow-y: scroll;"></textarea></td>'
-echo '    </tr>'
-echo '    <tr>'
-echo '        <td colspan="2"><input type="submit" value="Submit" /> <input type="reset" value="Clear" /></td>'
-echo '        <td><a href="https://github.com/JeremyRuhland/secure-dead-drop">Secure Dead Drop</a> Coded by <a href="http://goopypanther.org">Jeremy Ruhland</a></td>'
-echo '    </tr>'
-echo '    </tbody>'
-echo '</table>'
-echo '</form>'
-echo '</body>'
-echo '</html>'
+echo '</textarea></td>
+          </tr>
+          <tr>
+              <td colspan="2"><br></td>
+          </tr>
+          <tr>
+              <td colspan="2">(Optional & Non-secure)</td>
+          </tr>
+          <tr>
+              <td><b>Enter Name:</b></td>
+              <td><textarea name="name" cols="25" rows="1" style="resize: none;"></textarea></input></td>
+          </tr>
+          <tr>
+              <td><b>Enter Subject:</b></td>
+              <td><textarea name="subject" cols="25" rows="1" style="resize: none;"></textarea></td>
+          </tr>
+          <tr>
+              <td colspan="2"><br></td>
+          </tr>
+          <tr>
+              <td colspan="2">(Secure)</td>
+          </tr>
+          <tr>
+              <td colspan="2"><b>Enter Message:</b></td>
+          </tr>
+          <tr>
+              <td colspan="2"><textarea name="message" cols="45" rows="10" style="resize: none; overflow-y: scroll;"></textarea></td>
+          </tr>
+          <tr>
+              <td colspan="2"><input type="submit" value="Submit" /> <input type="reset" value="Clear" /></td>
+              <td><a href="https://github.com/JeremyRuhland/secure-dead-drop">Secure Dead Drop</a> Coded by <a href="http://goopypanther.org">Jeremy Ruhland</a></td>
+          </tr>
+          </tbody>
+      </table>
+      </form>
+      </body>
+      </html>'
 
 # This code for getting code from post data is from http://oinkzwurgl.org/bash_cgi and
 # was written by Phillippe Kehi <phkehi@gmx.net> and flipflip industries.
