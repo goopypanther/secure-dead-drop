@@ -25,7 +25,7 @@ Based off [deaddrop](https://github.com/tspilk/deaddrop) by tspilk, which I foun
 These instructions assume that you have basic knowledge of unix and have a server capable of sending email and hosting webpages.
 
 ### Dependencies:
- * sed
+ * tr
  * gnupg
  * apache or other webserver
  * sendmail or other MTA (I use ssmtpd)
