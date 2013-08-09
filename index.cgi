@@ -181,10 +181,13 @@ if [ -n "$message" ]; then
  if [ -z "$subject" ]; then
   subject="No Subject"
  fi
- # encrypt and sign message
- encryptedmessage=`echo "$message" | gpg --homedir $homedir_path --recipient $message_recipient -aesq --trust-model always | sed ':a;N;$!ba;s/\n/\\n/g'`
- # email encrypted message to recipient
- echo -e "To: $message_recipient\nFrom: $message_sender\nSubject: [DeadDrop] $name: $subject\nMessage from: $name\nSubject: $subject\n\n$encryptedmessage\n" | /usr/sbin/sendmail -t
+ # correct EOL's, encrypt and sign message
+ message=`echo "$message" | tr '\r' '\n' | gpg --recipient $message_recipient -aesq`
+ # assemble email data
+ message="To: $message_recipient\nFrom: $message_sender\nSubject: [DeadDrop] $name: $subject\nMessage from: $name\nWith Subject: $subject\n\n$message"
+ # send email data
+ echo -e "$message" | /usr/sbin/sendmail -t
+
 fi
 
 exit 0
