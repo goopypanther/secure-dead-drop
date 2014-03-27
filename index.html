@@ -1,0 +1,143 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Secure Dead Drop</title>
+    <script language="Javascript" src="pgp.js" type="text/javascript"></script>
+</head>
+
+<body>
+<table cellpadding="3" cellspacing="3" style="font-family: sans-serif;">
+    <tbody>
+    <tr>
+        <td colspan="2">
+        <div style="width: 350px; word-wrap: break-word">
+        <b>Secure Dead Drop Messaging System</b><br><br>
+        Write a message below and it will be encrypted in your browser and sent to me.<p>
+        If you believe your connection may have been MiTMed encrypt your message locally using <a href="http://pgp.mit.edu:11371/pks/lookup?op=get&search=0x" target="_blank" id="pubkeylink">my pubkey</a> (also available on the right), paste it into the message box and uncheck GPG Encrypt.<p>
+        Do not accept my pubkey on blind faith, verify with offline backups and public keyservs to minimize the chance of successful MiTM. Trust the <a href="https://en.wikipedia.org/wiki/User:Dotdotike/Trust_Upon_First_Use" target="_blank">TOFU.
+        </div>
+        </td>
+        <td rowspan="9" valign="bottom">
+        <textarea readonly id="pubkey" style="resize: none; overflow-y: scroll; width: 480px; height: 750px; font-size:12px"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><br></td>
+    </tr>
+    <tr>
+        <td colspan="2">(Optional & Non-secure)</td>
+    </tr>
+    <tr>
+        <td><b>Enter Name:</b></td>
+        <td><textarea name="name" cols="25" rows="1" style="resize: none;" id="sendername"></textarea></input></td>
+    </tr>
+    <tr>
+        <td><b>Enter Subject:</b></td>
+        <td><textarea name="subject" cols="25" rows="1" style="resize: none;" id="subject"></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2"><br></td>
+    </tr>
+    <tr>
+        <td colspan="2">(Secure)</td>
+    </tr>
+    <tr>
+        <td colspan="2"><b>Enter Message:</b></td>
+    </tr>
+    <tr>
+        <td colspan="2"><textarea name="message" cols="45" rows="10" style="resize: none; overflow-y: scroll;" id="text"></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="checkbox" id="gpgcheckbox" value="gpg" checked>GPG Encrypt <input type="button" value="Submit" onclick="sendeval();"/> <input type="button" value="Clear" onclick="cleareval()"/></td>
+        <td><a href="https://github.com/JeremyRuhland/secure-dead-drop">Secure Dead Drop</a> Coded by <a href="http://goopypanther.org">Jeremy Ruhland</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+<script language="Javascript" type="text/javascript">
+// Get contents of pubkey from external file, return pubkey
+function httpGet(theUrl) {
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.overrideMimeType('text/plain'); // Suppress error, this isn't html
+    xmlHttp.open("GET", theUrl, false);
+    xmlHttp.send(null);
+
+    return xmlHttp.responseText;
+}
+
+// Perform pgp encryption on plaintext, return armored pgp cyphertext
+function encrypt(plaintext) {
+    var cyphertext = '';
+
+    plaintext = plaintext + '\r\n';
+    cyphertext = doEncrypt(keyid, keytyp, pubkey, plaintext);
+
+    return cyphertext;
+}
+
+function sendeval() {
+    var text = document.getElementById("text").value;
+    var sender = document.getElementById("sendername").value;
+    var subject = document.getElementById("subject").value;
+
+    if (document.getElementById("text").value == '') {
+        alert('Please enter a message first.');
+    } else {
+        if (document.getElementById("gpgcheckbox").checked) {
+            text = encrypt(text);
+        } else {
+            text = document.getElementById("text").value;
+        }
+
+        cleareval();
+        sendmessage(sender, subject, text);
+        alert('Message Sent');
+    }
+}
+
+function cleareval() {
+    document.getElementById("text").value = '';
+    document.getElementById("gpgcheckbox").checked = 'checked';
+    document.getElementById("sendername").value = '';
+    document.getElementById("subject").value = '';
+}
+
+function sendmessage(sender, subject, text) {
+    var msg = 'From: ' + sender + '\nSubject: ' + subject + '\n\n' + text;
+    alert(msg);
+}
+
+// Set up keys upon page load
+var keytyp = -1;
+var keyid  = '0000000000000000';
+
+var pubkeyarmor = httpGet("pubkey.pub"); // Grab public key file
+
+var pu = new getPublicKey(pubkeyarmor);
+
+var pubkey = pu.pkey.replace(/\n/g,'');
+
+if(pu.keyid.length) keyid = pu.keyid;
+if(keyid.length != 16) {
+    alert('Invalid Key Id');
+} 
+
+// Set key type to correct cypher
+if(pu.type == 'ELGAMAL') {
+    keytyp = 1;
+}
+if(pu.type == 'RSA') {
+    keytyp = 0;
+}
+if(keytyp == -1) {
+    alert('Unsupported Key Type');
+}
+
+// Display pubkeyarmor in pubkey textarea & make link to pubkey
+document.getElementById("pubkey").value = pubkeyarmor;
+document.getElementById("pubkeylink").href = document.getElementById("pubkeylink").href + keyid;
+</script>
+</html>
